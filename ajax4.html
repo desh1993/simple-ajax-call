@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 4- AJAX & PHP Form submission</title>
+</head>
+<body>
+    <button id="button">Get Name</button>
+    <hr>
+    <h1>Get Form</h1>
+    <form action="process.php" method="get">
+        <input type="text" name="name">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>
+        Get Ajax Form
+    </h1>
+    <form id="getform" method="get">
+        <input type="text" name="name" id="name1">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>
+        POST Form
+    </h1>
+    <form action="process.php" method="POST">
+        <input type="text" name="name" id="name1">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h1>
+        POST Ajax Form
+    </h1>
+    <form id="getPost" method="POST">
+        <input type="text" name="name" id="post_name">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        document.getElementById('button').addEventListener('click',getName)
+
+        document.getElementById('getform').addEventListener('submit',getName)
+
+        document.querySelector('#getPost').addEventListener('submit',getPostName)
+
+        function getName(e){
+            e.preventDefault()
+            let name = document.getElementById('name1').value
+            const xhr = new XMLHttpRequest()
+            xhr.open('GET','process.php?name='+name,true)
+            xhr.onload = function(){
+                console.log(this.responseText)
+            }
+            xhr.send()
+        }
+
+        function getPostName(e){
+            e.preventDefault()
+            let name = document.getElementById('post_name').value
+            let params = 'name=' + name
+            let xhr = new XMLHttpRequest()
+            xhr.open("POST",'process.php',true)
+            //important for POST
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+            xhr.onload = function(){
+               console.log(this.responseText) 
+            }
+            xhr.send(params)
+
+        }
+    </script>
+</body>
+</html>
